@@ -7,7 +7,6 @@ workflows:
         XCODE_WORKSPACE: "NetNewsWire.xcworkspace"
         SCHEME: "NetNewsWire"
       xcode: latest
-      cocoapods: default 
     scripts:
       - name: Build iOS
         script: |
