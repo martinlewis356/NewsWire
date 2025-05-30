@@ -1,0 +1,24 @@
+workflows:
+  netnewswire-ios:
+    name: NetNewsWire iOS Build
+    environment:
+      vars:
+        BUNDLE_ID: com.Zongai.NetNewsWire 
+        XCODE_WORKSPACE: "NetNewsWire.xcworkspace"
+        SCHEME: "NetNewsWire"
+      xcode: latest
+      cocoapods: default 
+    scripts:
+      - name: Install Dependencies
+        script: | 
+          pod install
+      - name: Build iOS
+        script: |
+          xcodebuild build -workspace "$XCODE_WORKSPACE" -scheme "$SCHEME" -configuration Release CODE_SIGNING_ALLOWED=NO
+      - name: Archive & Export IPA
+        script: |
+          xcodebuild archive -workspace "$XCODE_WORKSPACE" -scheme "$SCHEME" -archivePath build/NetNewsWire.xcarchive
+          xcodebuild -exportArchive -archivePath build/NetNewsWire.xcarchive -exportOptionsPlist ios_export.plist -exportPath build
+    artifacts:
+      - build/*.ipa
+
