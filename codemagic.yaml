@@ -2,52 +2,41 @@ workflows:
   netnewswire-ipa-build:
     name: NetNewsWire IPA Builder
     environment:
-      # 关键环境变量
       vars:
-        WORKSPACE: "NetNewsWire.xcworkspace" # Xcode 工作空间名称
-        SCHEME: "NetNewsWire"                # Scheme 名称
-        BUNDLE_ID: "com.zongai.NetNewsWire" # 替换你的 Bundle ID
-        EXPORT_OPTIONS: "ExportOptions.plist" # 导出配置文件
-
-      # 基础环境
+        WORKSPACE: "NetNewsWire.xcworkspace"
+        SCHEME: "NetNewsWire"
+        BUNDLE_ID: "com.ranchero.NetNewsWire" # 改成你的 Bundle ID
+        EXPORT_OPTIONS: "ExportOptions.plist"
       xcode: latest
 
-    # 自动触发条件（可选）
+    # 修复分支触发配置
     triggering:
+      events:
+        - push
       branch_patterns:
-        - "main"
-        - "release/*"
-      cancel_previous_builds: true  # 自动取消队列中的旧构建
+        - pattern: main
+        - pattern: release/*
 
-    # 构建脚本
     scripts:
-      # 清除构建缓存
       - name: Clean Build
         script: |
           xcodebuild clean -workspace "$WORKSPACE" -scheme "$SCHEME"
-      
-      # 构建并导出 IPA
+
       - name: Build & Export IPA
         script: |
-          # 创建导出的临时目录
           mkdir -p build/Output
-
-          # 归档项目
           xcodebuild archive \
             -workspace "$WORKSPACE" \
             -scheme "$SCHEME" \
             -configuration Release \
             -archivePath "build/NetNewsWire.xcarchive"
-          
-          # 导出IPA
           xcodebuild -exportArchive \
             -archivePath "build/NetNewsWire.xcarchive" \
             -exportOptionsPlist "$EXPORT_OPTIONS" \
             -exportPath "build/Output" \
             -allowProvisioningUpdates
 
-    # 输出产物
     artifacts:
-      - build/Output/*.ipa  # 捕获 IPA 文件
+      - build/Output/*.ipa
 
 
