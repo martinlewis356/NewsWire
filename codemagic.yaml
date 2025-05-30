@@ -18,10 +18,6 @@ workflows:
         - pattern: release/*
 
     scripts:
-      - name: Clean Build
-        script: |
-          xcodebuild clean -workspace "$WORKSPACE" -scheme "$SCHEME"
-
       - name: Build & Export IPA
         script: |
           mkdir -p build/Output
