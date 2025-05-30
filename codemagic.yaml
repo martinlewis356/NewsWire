@@ -8,10 +8,10 @@ workflows:
         SCHEME: "NetNewsWire"
       xcode: latest
     scripts:
-      - name: Archive & Export IPA
+      - name: Build ipa for distribution
+        working_directory: ios/ios-automatic-code-signing-demo-project
         script: |
-          xcodebuild archive -workspace "$XCODE_WORKSPACE" -scheme "$SCHEME" -archivePath build/NetNewsWire.xcarchive
-          xcodebuild -exportArchive -archivePath build/NetNewsWire.xcarchive -exportOptionsPlist ios_export.plist -exportPath build
+          xcode-project build-ipa --workspace "$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
     artifacts:
       - build/*.ipa
 
