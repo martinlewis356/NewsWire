@@ -17,7 +17,6 @@ workflows:
           xcodebuild \
             -project NetNewsWire.xcodeproj \
             -scheme NetNewsWire-iOS \
-            -destination platform=iOS Simulator,name=iPhone 16 \
             clean build | xcbeautify
     artifacts:  
       - build/ios/ipa/*.ipa  
