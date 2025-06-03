@@ -7,7 +7,7 @@ workflows:
     environment:  
       ios_signing:  
         distribution_type: enterprise   
-        bundle_identifier: com.ranchero.NetNewsWire.iOS  
+        bundle_identifier: com.zkyqbzx.emobile7  
       vars:  
         XCODE_WORKSPACE: "NetNewsWire.xcodeproj"  
         XCODE_SCHEME: "NetNewsWire-iOS"  
