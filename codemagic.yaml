@@ -14,9 +14,16 @@ workflows:
     scripts:  
       - name: Build and Export IPA  
         script: |  
-          xcode-project build-ipa \  
-            --project "$XCODE_PROJECT" \  
-            --scheme "$XCODE_SCHEME"  
+          xcodebuild -project NetNewsWire.xcodeproj \  
+            -scheme NetNewsWire-iOS \  
+            -configuration Release \  
+            -archivePath build/NetNewsWire.xcarchive \  
+            archive  
+            
+          xcodebuild -exportArchive \  
+            -archivePath build/NetNewsWire.xcarchive \  
+            -exportPath build/ios/ipa \  
+            -exportOptionsPlist exportOptions.plist
     artifacts:  
       - build/ios/ipa/*.ipa  
       - /tmp/xcodebuild_logs/*.log  
