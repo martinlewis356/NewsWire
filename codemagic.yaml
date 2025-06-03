@@ -10,12 +10,13 @@ workflows:
       vars:  
         XCODE_PROJECT: "NetNewsWire.xcodeproj"  
         XCODE_SCHEME: "NetNewsWire-iOS"  
-      xcode: latest  
+
     scripts:  
       - name: Build iOS  
-        script: |  
-          find . -name "*.xcodeproj"  
-          xcode-project build-ipa
+        script: | 
+          xcode-project build-ipa \
+            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
     artifacts:  
       - build/ios/ipa/*.ipa  
       - /tmp/xcodebuild_logs/*.log  
