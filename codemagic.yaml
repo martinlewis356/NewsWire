@@ -8,7 +8,7 @@ workflows:
         distribution_type: enterprise   
         bundle_identifier: com.zkyqbzx.emobile7  
       ios_signing_widget:  
-        distribution_type: development    
+        distribution_type: enterprise    
         bundle_identifier: com.zkyqbzx.emobile7
       xcode: latest  
     scripts:  
