@@ -18,8 +18,6 @@ workflows:
         - pattern: release/*
 
     scripts:
-      - flutter build ipa --release --export-options-plist=ExportOptions.plist
-      - flutter build ipa --verbose --release
       - name: Verify Provisioning Profiles
         script: |
           cd $CM_BUILD_DIR/ios
