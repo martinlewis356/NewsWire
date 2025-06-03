@@ -7,10 +7,7 @@ workflows:
       ios_signing:  
         distribution_type: enterprise   
         bundle_identifier: com.zkyqbzx.emobile7  
-      vars:  
-        XCODE_PROJECT: "NetNewsWire.xcodeproj"  
-        XCODE_SCHEME: "NetNewsWire-iOS"  
-
+      xcode: latest  
     scripts:  
       - name: Build iOS  
         script: |  
