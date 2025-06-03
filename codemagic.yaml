@@ -7,9 +7,6 @@ workflows:
       ios_signing:  
         distribution_type: enterprise   
         bundle_identifier: com.zkyqbzx.emobile7  
-      ios_signing_widget:  
-        distribution_type: enterprise    
-        bundle_identifier: com.ranchero.NetNewsWire.iOS.SpringboardWidgets
       xcode: latest  
     scripts:  
       - name: Build iOS  
