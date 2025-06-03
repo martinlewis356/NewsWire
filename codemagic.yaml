@@ -12,10 +12,10 @@ workflows:
         XCODE_SCHEME: "NetNewsWire-iOS"  
       xcode: latest  
     scripts:  
-      - name: Build and Export IPA  
+      - name: Build iOS  
         script: |  
-          xcode-project build-ipa \  
-            --scheme "NetNewsWire-iOS"
+          find . -name "*.xcodeproj"  
+          xcode-project build-ipa
     artifacts:  
       - build/ios/ipa/*.ipa  
       - /tmp/xcodebuild_logs/*.log  
