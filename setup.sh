@@ -24,11 +24,11 @@ echo 2. What is your organisation identifier? e.g. com.developername
 read devOrgName
 
 echo Creating SharedXcodeSettings Folder
-mkdir -p ../SharedXcodeSettings
+mkdir -p ./SharedXcodeSettings
 
 echo Creating DeveloperSettings.xcconfig
 
-cat <<file >> ../SharedXcodeSettings/DeveloperSettings.xcconfig
+cat <<file >> ./SharedXcodeSettings/DeveloperSettings.xcconfig
 CODE_SIGN_IDENTITY = Mac Developer
 DEVELOPMENT_TEAM = $devTeamID
 CODE_SIGN_STYLE = Automatic
