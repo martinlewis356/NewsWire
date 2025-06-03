@@ -14,8 +14,8 @@ workflows:
           xcodebuild \
             -project NetNewsWire.xcodeproj \
             -scheme NetNewsWire-iOS \
-            --destination "generic/platform=iOS"  \
-            clean build | xcbeautify
+            -destination "generic/platform=iOS"  \
+
     artifacts:  
       - build/ios/ipa/*.ipa  
       - /tmp/xcodebuild_logs/*.log  
