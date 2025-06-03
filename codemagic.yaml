@@ -2,18 +2,17 @@ workflows:
   ios-workflow:  
     name: iOS Workflow  
     max_build_duration: 120  
-    instance_type: mac_mini_m2  
     integrations:  
       app_store_connect: codemagic  
     environment:  
       ios_signing:  
         distribution_type: app_store  
-        bundle_identifier: com.ranchero.NetNewsWire.iOS 
+        bundle_identifier: com.ranchero.NetNewsWire.iOS  
       vars:  
         XCODE_WORKSPACE: "NetNewsWire.xcodeproj"  
         XCODE_SCHEME: "NetNewsWire-iOS"  
       xcode: latest  
-      cocoapods: default   
+      cocoapods: default  
     scripts:  
       - name: Set up code signing settings  
         script: |  
@@ -42,34 +41,3 @@ workflows:
         beta_groups:  
           - group name  
         submit_to_app_store: false  
-  
-  macos-workflow:  
-    name: macOS Workflow  
-    max_build_duration: 120  
-    instance_type: mac_mini_m1  
-    environment:  
-      vars:  
-        XCODE_WORKSPACE: "NetNewsWire.xcodeproj"  
-        XCODE_SCHEME: "NetNewsWire"  
-      xcode: latest  
-      cocoapods: default  
-    scripts:  
-      - name: Set up code signing settings  
-        script: |  
-          set -ex  
-          find . -name "*.xcconfig" -exec ls -la {} \;  
-      - name: Build macOS app  
-        script: |  
-          xcode-project build-ipa \  
-            --workspace "$XCODE_WORKSPACE" \  
-            --scheme "$XCODE_SCHEME"  
-    artifacts:  
-      - build/macos/Build/Products/**/*.app  
-      - /tmp/xcodebuild_logs/*.log  
-    publishing:  
-      email:  
-        recipients:  
-          - user@example.com  
-        notify:  
-          success: true  
-          failure: false
