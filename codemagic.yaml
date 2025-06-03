@@ -18,10 +18,6 @@ workflows:
         - pattern: release/*
 
     scripts:
-      - flutter clean
-      - rm -rf ios/Pods
-      - rm ios/Podfile.lock
-      - cd ios && pod install --repo-update && cd ..
       - flutter build ipa --release --export-options-plist=ExportOptions.plist
       - flutter build ipa --verbose --release
       - name: Verify Provisioning Profiles
