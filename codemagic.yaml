@@ -18,7 +18,7 @@ workflows:
             -configuration Release \  
             -archivePath build/NetNewsWire.xcarchive \  
             -allowProvisioningUpdates \  
-            clean archive
+            -skipUnavailableActions
     artifacts:  
       - build/ios/ipa/*.ipa  
       - /tmp/xcodebuild_logs/*.log  
