@@ -15,9 +15,7 @@ workflows:
             -project NetNewsWire.xcodeproj \
             -scheme NetNewsWire-iOS \
             -destination "generic/platform=iOS"  \
-            -configuration Release \  
-            -archivePath build/NetNewsWire.xcarchive \  
-            -allowProvisioningUpdates 
+            -configuration Release 
     artifacts:  
       - build/ios/ipa/*.ipa  
       - /tmp/xcodebuild_logs/*.log  
