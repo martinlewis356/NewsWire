@@ -17,10 +17,6 @@ workflows:
         IOS_EXPORT_OPTIONS_PLIST_PATH: "SharedXcodeSettings/iOSExportOptions.plist" # 示例路径，用户需创建此文件
 
     scripts:
-      - name: Increment build number (iOS)
-        script: |
-          cd $CM_BUILD_DIR
-          agvtool new-version -all $PROJECT_BUILD_NUMBER [26]
       - name: Build NetNewsWire for iOS
         script: |
           xcodebuild archive -project "$XCODE_PROJECT_IOS" \
