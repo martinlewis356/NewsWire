@@ -1,22 +1,51 @@
-workflows:  
-  ios-build-only:  
-    name: iOS Build and Export IPA  
-    max_build_duration: 120  
-    instance_type: mac_mini_m2  
-    environment:  
+workflows:
+   # Workflow 2: Building NetNewsWire for iOS
+  build-netnewswire-ios:
+    name: Build NetNewsWire iOS
+    instance_type: mac_mini_m2 # 或其他可用的 M 系列 Mac [23, 24]
+    max_build_duration: 120
+    environment:
+      xcode: latest # 或特定版本 [8, 9, 22, 25]
       ios_signing:  
         distribution_type: enterprise   
         bundle_identifier: com.zkyqbzx.emobile7  
-      xcode: latest  
-    scripts:  
-      - name: Build iOS  
-        script: |  
-          xcodebuild \
-            -project NetNewsWire.xcodeproj \
-            -scheme NetNewsWire-iOS \
-            -destination "generic/platform=iOS"  \
-            -configuration Release 
-    artifacts:  
-      - build/ios/ipa/*.ipa  
-      - /tmp/xcodebuild_logs/*.log  
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+      vars:
+        BUNDLE_ID_IOS: "com.ranchero.NetNewsWire-iOS" # 替换为实际的 iOS Bundle ID
+        XCODE_SCHEME_IOS: "NetNewsWire-iOS"
+        XCODE_PROJECT_IOS: "NetNewsWire.xcodeproj"
+        # 定义 iOS 导出选项 plist 文件的路径
+        IOS_EXPORT_OPTIONS_PLIST_PATH: "SharedXcodeSettings/iOSExportOptions.plist" # 示例路径，用户需创建此文件
+
+    scripts:
+      - name: Set up keychain
+        script: keychain initialize [17]
+      - name: Fetch signing files (iOS)
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID_IOS" \
+            --platform IOS \
+            --type APP_STORE \ # 或 AD_HOC / DEVELOPMENT
+            --create [17]
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles [17]
+      - name: Increment build number (iOS)
+        script: |
+          cd $CM_BUILD_DIR
+          agvtool new-version -all $PROJECT_BUILD_NUMBER [26]
+      - name: Build NetNewsWire for iOS
+        script: |
+          xcodebuild archive -project "$XCODE_PROJECT_IOS" \
+                           -scheme "$XCODE_SCHEME_IOS" \
+                           -archivePath $CM_BUILD_DIR/build/NetNewsWire.xcarchive \
+                           CODE_SIGN_IDENTITY="" \
+                           CODE_SIGNING_ALLOWED=YES \
+                           CODE_SIGNING_REQUIRED=YES \
+                           ONLY_ACTIVE_ARCH=NO \
+                           CONFIGURATION=Release
+          xcodebuild -exportArchive \
+                           -archivePath $CM_BUILD_DIR/build/NetNewsWire.xcarchive \
+                           -exportPath $CM_BUILD_DIR/build/ios \
+                           -exportOptionsPlist "$IOS_EXPORT_OPTIONS_PLIST_PATH"
+
+    artifacts:
+      - $CM_BUILD_DIR/build/ios/*.ipa
+      - $CM_BUILD_DIR/build/NetNewsWire.xcarchive/dSYMs/*.dSYM [22]
